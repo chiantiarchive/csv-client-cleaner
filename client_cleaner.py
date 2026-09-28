@@ -12,6 +12,9 @@ cleaned_clients = []
 valid_count = 0
 blank_count = 0
 
+invalid_email_count = 0
+
+
 try:
     with open(input_file, "r", newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
@@ -25,16 +28,23 @@ try:
                 client = row["client_name"]
                 email = row["email"]
 
-                print(f"Raw email: {email}")
+                print(f"\nRaw email: {email}")
 
                 clean_client = client.strip().title()
+                clean_email = email.strip().lower()
+
+                print(f"\nClean email: {clean_email}")
 
                 if client is None or client.strip() == "":
                     print("Skipped blank client.")
                     blank_count += 1
                     continue
 
-                clean_client = client.strip().title()
+                if "@" not in clean_email:
+                    print(f"Skipped {clean_client}: invalid email.")
+                    invalid_email_count += 1
+                    continue
+
                 print(f"Good morning {clean_client}!")
                 cleaned_clients.append(clean_client)
                 valid_count += 1
@@ -50,8 +60,13 @@ if valid_count > 0:
         for clean_client in cleaned_clients:
             writer.writerow([clean_client])
 
+
+
+
     print(f"\nValid clients processed: {valid_count}")
     print(f"Blank clients skipped: {blank_count}")
+    print(f"Invalid emails skipped: {invalid_email_count}")
     print(f"Saved cleaned clients to {output_file.name}")
 else:
     print("\nNo valid clients were found. No output file was created.")
+
