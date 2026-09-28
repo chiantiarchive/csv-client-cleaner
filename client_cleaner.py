@@ -18,14 +18,6 @@ try:
 
         print(reader.fieldnames)
 
-        for row in reader:
-            print(row)
-            
-            client = row["client_name"]
-            email = row["email"]
-
-            print(f"Raw email: {email}")
-
         if "client_name" not in reader.fieldnames:
             print("Error: The input CSV must contain a 'client_name' column.")
         else:
