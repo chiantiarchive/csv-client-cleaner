@@ -46,7 +46,7 @@ try:
                     invalid_email_count += 1
                     continue
 
-                print(f"Kept client {clean_client}!")
+                print(f"Kept client: {clean_client}!")
                 cleaned_clients.append({
                     "client_name": clean_client,
                     "email": clean_email
