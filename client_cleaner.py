@@ -28,12 +28,11 @@ try:
                 client = row["client_name"]
                 email = row["email"]
 
-                print(f"\nRaw email: {email}")
-
                 clean_client = client.strip().title()
                 clean_email = email.strip().lower()
 
-                print(f"\nClean email: {clean_email}")
+                print(f"\nRaw email: {email!r}")
+                print(f"Clean email: {clean_email!r}")
 
                 if client is None or client.strip() == "":
                     print("Skipped blank client.")
@@ -46,7 +45,10 @@ try:
                     continue
 
                 print(f"Good morning {clean_client}!")
-                cleaned_clients.append(clean_client)
+                cleaned_clients.append({
+                    "client_name": clean_client,
+                    "email": clean_email
+                })
                 valid_count += 1
 
 except FileNotFoundError:
@@ -54,11 +56,11 @@ except FileNotFoundError:
 
 if valid_count > 0:
     with open(output_file, "w", newline="", encoding="utf-8") as file:
-        writer = csv.writer(file)
-        writer.writerow(["client_name"])
+        fieldnames = ["client_name", "email"]
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
 
-        for clean_client in cleaned_clients:
-            writer.writerow([clean_client])
+        writer.writeheader()
+        writer.writerows(cleaned_clients)
 
 
 
