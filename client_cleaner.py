@@ -19,7 +19,6 @@ try:
     with open(input_file, "r", newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
 
-        print(reader.fieldnames)
 
         if "client_name" not in reader.fieldnames:
             print("Error: The input CSV must contain a 'client_name' column.")
@@ -31,9 +30,6 @@ try:
                 clean_client = client.strip().title()
                 clean_email = email.strip().lower()
 
-                print(f"\nRaw email: {email!r}")
-                print(f"Clean email: {clean_email!r}")
-
                 if client is None or client.strip() == "":
                     print("Skipped blank client.")
                     blank_count += 1
@@ -44,7 +40,7 @@ try:
                     invalid_email_count += 1
                     continue
 
-                print(f"Good morning {clean_client}!")
+                print(f"Kept client {clean_client}!")
                 cleaned_clients.append({
                     "client_name": clean_client,
                     "email": clean_email
