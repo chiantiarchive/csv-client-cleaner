@@ -27,13 +27,19 @@ try:
                 client = row["client_name"]
                 email = row["email"]
 
-                clean_client = client.strip().title()
-                clean_email = email.strip().lower()
-
                 if client is None or client.strip() == "":
                     print("Skipped blank client.")
                     blank_count += 1
                     continue
+
+                if email is None or email.strip() == "":
+                    print(f"Skipped {client.strip()}: blank email.")
+                    invalid_email_count += 1
+                    continue
+
+                clean_client = client.strip().title()
+                clean_email = email.strip().lower()
+
 
                 if "@" not in clean_email:
                     print(f"Skipped {clean_client}: invalid email.")
