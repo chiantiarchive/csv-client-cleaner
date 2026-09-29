@@ -11,9 +11,9 @@ output_file = script_folder / "cleaned_clients.csv"
 cleaned_clients = []
 valid_count = 0
 blank_count = 0
-
 invalid_email_count = 0
-
+seen_emails = set()
+duplicate_email_count = 0
 
 try:
     with open(input_file, "r", newline="", encoding="utf-8") as file:
@@ -46,11 +46,17 @@ try:
                     invalid_email_count += 1
                     continue
 
+                if clean_email in seen_emails:
+                    print(f"Skipped duplicate email: {clean_email}")
+                    duplicate_email_count += 1
+                    continue
+
                 print(f"Kept client: {clean_client}!")
                 cleaned_clients.append({
                     "client_name": clean_client,
                     "email": clean_email
                 })
+                seen_emails.add(clean_email)
                 valid_count += 1
 
 except FileNotFoundError:
@@ -70,6 +76,7 @@ if valid_count > 0:
     print(f"\nValid clients processed: {valid_count}")
     print(f"Blank clients skipped: {blank_count}")
     print(f"Invalid emails skipped: {invalid_email_count}")
+    print(f"Duplicate emails skipped: {duplicate_email_count}")
     print(f"Saved cleaned clients to {output_file.name}")
 else:
     print("\nNo valid clients were found. No output file was created.")
