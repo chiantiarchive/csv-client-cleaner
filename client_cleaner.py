@@ -69,12 +69,20 @@ try:
                         "email": email,
                         "reason": "Invalid email"
                     })
-                    
+
                     invalid_email_count += 1
                     continue
 
                 if clean_email in seen_emails:
                     print(f"Row {row_number}: skipped duplicate email — {clean_email}")
+
+                    rejected_clients.append({
+                        "row_number": row_number,
+                        "client_name": client,
+                        "email": email,
+                        "reason": "Duplicate email"
+                    })
+                    
                     duplicate_email_count += 1
                     continue
 

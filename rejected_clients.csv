@@ -1,4 +1,5 @@
 row_number,client_name,email,reason
 4,   ,blank.name@example.com,Blank client name
 5,Marco Reyes,not-an-email,Invalid email
+7,Duplicate Nz,nz.dines@example.com,Duplicate email
 8,No Email,,Blank email
