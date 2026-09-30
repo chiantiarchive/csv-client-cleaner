@@ -52,7 +52,7 @@ try:
                         "email": email,
                         "reason": "Blank email"
                     })
-                    
+
                     invalid_email_count += 1
                     continue
 
@@ -62,6 +62,14 @@ try:
 
                 if "@" not in clean_email:
                     print(f"Row {row_number}: skipped {clean_client} — invalid email.")
+
+                    rejected_clients.append({
+                        "row_number": row_number,
+                        "client_name": client,
+                        "email": email,
+                        "reason": "Invalid email"
+                    })
+                    
                     invalid_email_count += 1
                     continue
 
