@@ -1,0 +1,4 @@
+Valid clients processed: 0
+Blank clients skipped: 1
+Invalid emails skipped: 2
+Duplicate emails skipped: 0

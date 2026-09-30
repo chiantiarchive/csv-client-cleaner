@@ -5,9 +5,14 @@ script_folder = Path(__file__).parent
 input_file = script_folder / "raw_clients.csv"
 output_file = script_folder / "cleaned_clients.csv"
 rejected_file = script_folder / "rejected_clients.csv"
+summary_file = script_folder / "processing_summary.txt"
+
+
 
 cleaned_clients = []
 rejected_clients = []
+
+
 
 valid_count = 0
 blank_count = 0
@@ -127,3 +132,21 @@ if rejected_clients:
         rejected_writer.writerows(rejected_clients)
 
     print(f"Saved rejected clients to {rejected_file.name}")
+
+
+
+summary = (
+    f"Valid clients processed: {valid_count}\n"
+    f"Blank clients skipped: {blank_count}\n"
+    f"Invalid emails skipped: {invalid_email_count}\n"
+    f"Duplicate emails skipped: {duplicate_email_count}\n"
+)
+
+with open(summary_file, "w", encoding="utf-8") as file:
+    file.write(summary)
+
+print(f"Saved processing summary to {summary_file.name}")
+
+
+
+
