@@ -45,6 +45,14 @@ try:
 
                 if email is None or email.strip() == "":
                     print(f"Row {row_number}: skipped {client.strip()} — blank email.")
+                    
+                    rejected_clients.append({
+                        "row_number": row_number,
+                        "client_name": client,
+                        "email": email,
+                        "reason": "Blank email"
+                    })
+                    
                     invalid_email_count += 1
                     continue
 
