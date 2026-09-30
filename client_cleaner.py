@@ -23,17 +23,17 @@ try:
         if "client_name" not in reader.fieldnames:
             print("Error: The input CSV must contain a 'client_name' column.")
         else:
-            for row in reader:
+            for row_number, row in enumerate(reader, start=2):
                 client = row["client_name"]
                 email = row["email"]
 
                 if client is None or client.strip() == "":
-                    print("Skipped blank client.")
+                    print(f"Row {row_number}: skipped blank client.")
                     blank_count += 1
                     continue
 
                 if email is None or email.strip() == "":
-                    print(f"Skipped {client.strip()}: blank email.")
+                    print(f"Row {row_number}: skipped {client.strip()} — blank email.")
                     invalid_email_count += 1
                     continue
 
@@ -42,16 +42,16 @@ try:
 
 
                 if "@" not in clean_email:
-                    print(f"Skipped {clean_client}: invalid email.")
+                    print(f"Row {row_number}: skipped {clean_client} — invalid email.")
                     invalid_email_count += 1
                     continue
 
                 if clean_email in seen_emails:
-                    print(f"Skipped duplicate email: {clean_email}")
+                    print(f"Row {row_number}: skipped duplicate email — {clean_email}")
                     duplicate_email_count += 1
                     continue
 
-                print(f"Kept client: {clean_client}!")
+                print(f"Row {row_number}: kept client: {clean_client}")
                 cleaned_clients.append({
                     "client_name": clean_client,
                     "email": clean_email
