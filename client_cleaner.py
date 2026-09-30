@@ -81,9 +81,6 @@ if valid_count > 0:
         writer.writeheader()
         writer.writerows(cleaned_clients)
 
-
-
-
     print(f"\nValid clients processed: {valid_count}")
     print(f"Blank clients skipped: {blank_count}")
     print(f"Invalid emails skipped: {invalid_email_count}")
@@ -92,3 +89,13 @@ if valid_count > 0:
 else:
     print("\nNo valid clients were found. No output file was created.")
 
+
+if rejected_clients:
+    with open(rejected_file, "w", newline="", encoding="utf-8") as file:
+        rejected_fieldnames = ["row_number", "client_name", "email", "reason"]
+        rejected_writer = csv.DictWriter(file, fieldnames=rejected_fieldnames)
+
+        rejected_writer.writeheader()
+        rejected_writer.writerows(rejected_clients)
+
+    print(f"Saved rejected clients to {rejected_file.name}")
