@@ -7,8 +7,11 @@ from pathlib import Path
 script_folder = Path(__file__).parent
 input_file = script_folder / "raw_clients.csv"
 output_file = script_folder / "cleaned_clients.csv"
+rejected_file = script_folder / "rejected_clients.csv"
 
 cleaned_clients = []
+rejected_clients = []
+
 valid_count = 0
 blank_count = 0
 invalid_email_count = 0
@@ -29,6 +32,14 @@ try:
 
                 if client is None or client.strip() == "":
                     print(f"Row {row_number}: skipped blank client.")
+
+                    rejected_clients.append({
+                        "row_number": row_number,
+                        "client_name": client,
+                        "email": email,
+                        "reason": "Blank client name"
+                    })
+
                     blank_count += 1
                     continue
 
