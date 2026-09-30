@@ -18,10 +18,13 @@ duplicate_email_count = 0
 try:
     with open(input_file, "r", newline="", encoding="utf-8") as file:
         reader = csv.DictReader(file)
+        required_columns = ["client_name", "email"]
 
 
-        if "client_name" not in reader.fieldnames:
-            print("Error: The input CSV must contain a 'client_name' column.")
+        if not reader.fieldnames or not all(
+            column in reader.fieldnames for column in required_columns
+        ):
+            print("Error: The input CSV must contain 'client_name' and 'email' columns.")
         else:
             for row_number, row in enumerate(reader, start=2):
                 client = row["client_name"]
