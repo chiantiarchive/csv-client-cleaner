@@ -82,7 +82,7 @@ try:
                         "email": email,
                         "reason": "Duplicate email"
                     })
-                    
+
                     duplicate_email_count += 1
                     continue
 
@@ -111,6 +111,10 @@ if valid_count > 0:
     print(f"Duplicate emails skipped: {duplicate_email_count}")
     print(f"Saved cleaned clients to {output_file.name}")
 else:
+    if output_file.exists():
+        output_file.unlink()
+        print(f"Removed stale output file: {output_file.name}")
+
     print("\nNo valid clients were found. No output file was created.")
 
 
