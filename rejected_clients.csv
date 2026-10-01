@@ -1,4 +1,3 @@
 row_number,client_name,email,reason
-2,   ,blank@example.com,Blank client name
-3,Marco Reyes,not-an-email,Invalid email
-4,No Email,,Blank email
+4,   ,blank.name@example.com,Blank client name
+5,Marco Reyes,not-an-email,Invalid email

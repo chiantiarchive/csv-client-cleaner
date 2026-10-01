@@ -12,17 +12,18 @@ summary_file = script_folder / "processing_summary.txt"
 cleaned_clients = []
 rejected_clients = []
 
+seen_emails = set()
 
 
 valid_count = 0
 blank_count = 0
 invalid_email_count = 0
-seen_emails = set()
 duplicate_email_count = 0
+malformed_row_count = 0
 
 try:
     with open(input_file, "r", newline="", encoding="utf-8") as file:
-        reader = csv.DictReader(file)
+        reader = csv.DictReader(file, restkey="_extra_fields")
         required_columns = ["client_name", "email"]
 
 
@@ -32,6 +33,19 @@ try:
             print("Error: The input CSV must contain 'client_name' and 'email' columns.")
         else:
             for row_number, row in enumerate(reader, start=2):
+                if row.get("_extra_fields") is not None:
+                    print(f"Row {row_number}: skipped malformed row.")
+                    malformed_row_count += 1
+
+                    rejected_clients.append({
+                        "row_number": row_number,
+                        "client_name": row.get("client_name"),
+                        "email": row.get("email"),
+                        "reason": "Extra CSV fields"
+                    })
+
+                    continue
+
                 client = row["client_name"]
                 email = row["email"]
 
@@ -114,6 +128,7 @@ if valid_count > 0:
     print(f"Blank clients skipped: {blank_count}")
     print(f"Invalid emails skipped: {invalid_email_count}")
     print(f"Duplicate emails skipped: {duplicate_email_count}")
+    print(f"Malformed rows skipped: {malformed_row_count}")
     print(f"Saved cleaned clients to {output_file.name}")
 else:
     if output_file.exists():
@@ -140,13 +155,12 @@ summary = (
     f"Blank clients skipped: {blank_count}\n"
     f"Invalid emails skipped: {invalid_email_count}\n"
     f"Duplicate emails skipped: {duplicate_email_count}\n"
+    f"Malformed rows skipped: {malformed_row_count}\n"
 )
 
 with open(summary_file, "w", encoding="utf-8") as file:
     file.write(summary)
 
 print(f"Saved processing summary to {summary_file.name}")
-
-
 
 

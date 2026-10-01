@@ -1,4 +1,5 @@
-Valid clients processed: 0
+Valid clients processed: 3
 Blank clients skipped: 1
-Invalid emails skipped: 2
+Invalid emails skipped: 1
 Duplicate emails skipped: 0
+Malformed rows skipped: 0
