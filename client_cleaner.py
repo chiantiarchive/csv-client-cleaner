@@ -1,5 +1,7 @@
 import csv
 from pathlib import Path
+from datetime import datetime
+
 
 script_folder = Path(__file__).parent
 input_file = script_folder / "raw_clients.csv"
@@ -149,8 +151,10 @@ if rejected_clients:
     print(f"Saved rejected clients to {rejected_file.name}")
 
 
+run_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 summary = (
+    f"Run completed: {run_timestamp}\n"
     f"Valid clients processed: {valid_count}\n"
     f"Blank clients skipped: {blank_count}\n"
     f"Invalid emails skipped: {invalid_email_count}\n"
